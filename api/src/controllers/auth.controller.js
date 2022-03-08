@@ -1,38 +1,20 @@
 import User from "../models/user.model";
 import jwt from "jsonwebtoken";
 import config from "../config/default.config";
-import Role from "../models/roles.model";
-import { cerateCategories, createAccounts } from "../libs/initialSetup";
+import { createOneUser } from "../libs/initialSetup";
 
-//import { Accounts, Categories } from "../config/defaultModels";
 
 export const singUp = async (req, res) => {
   try {
     const { userName, email, password, roles } = req.body;
 
-    const newUser = new User({
-      userName,
-      email,
-      password: await User.encryptPassword(password),
-    });
-
-    if (roles) {
-      const foundRoles = await Role.find({ name: { $in: roles } });
-      newUser.roles = foundRoles.map((role) => role._id);
-    } else {
-      const role = await Role.findOne({ name: "user" });
-      newUser.roles = [role._id];
-      newUser.accounts = await createAccounts();
-      newUser.categories = await cerateCategories();
-    }
-
-    const savedUser = await newUser.save();
+    const savedUser = await createOneUser({ userName, email, password, roles });
 
     const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
       expiresIn: 86400,
     });
 
-    res.json({ token, savedUser });
+    res.json({ token, user: savedUser });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -55,5 +37,5 @@ export const singIn = async (req, res) => {
   const token = jwt.sign({ id: userFound.id }, config.SECRET, {
     expiresIn: 86400,
   });
-  res.json({token, userFound});
+  res.json({ token, user: userFound });
 };

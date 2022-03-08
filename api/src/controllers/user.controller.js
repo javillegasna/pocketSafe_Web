@@ -1,8 +1,7 @@
 import User from "../models/user.model";
 import Account from "../models/account.model";
 import Category from "../models/category.model";
-import Role from "../models/roles.model";
-import { cerateCategories, createAccounts } from "../libs/initialSetup";
+import { createOneUser } from "../libs/initialSetup";
 const handlerError = (res) => (err) => {
   res.status(400);
   res.json(err);
@@ -11,25 +10,7 @@ const handlerError = (res) => (err) => {
 const create = async (req, res) => {
   try {
     const { userName, email, password, roles } = req.body;
-
-    const newUser = new User({
-      userName,
-      email,
-      password: await User.encryptPassword(password),
-    });
-
-    if (roles) {
-      const foundRoles = await Role.find({ name: { $in: roles } });
-      newUser.roles = foundRoles.map((role) => role._id);
-    } else {
-      const role = await Role.findOne({ name: "user" });
-      newUser.roles = [role._id];
-      newUser.accounts = await createAccounts();
-      newUser.categories = await cerateCategories();
-    }
-
-    const savedUser = await newUser.save();
-
+    const savedUser = await createOneUser({ userName, email, password, roles });
     res.json(savedUser);
   } catch (error) {
     res.status(400).json(error);
