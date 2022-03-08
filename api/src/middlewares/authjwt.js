@@ -21,12 +21,14 @@ export const verifyToken = async (req, res, next) => {
 export const isClient = async (req, res, next) => {
   const user = await User.findById(req.userId);
   const roles = await Role.find({ _id: { $in: user.roles } });
-  if(!roles.includes("client"))return res.status(403).json({message:"Unauthorized"});
+  const listOfRoles= roles.map(rol=>rol.name);
+  if(!listOfRoles.includes("client"))return res.status(403).json({message:"Unauthorized"});
   next();
 };
 export const isAdmin = async (req, res, next) => {
   const user = await User.findById(req.userId);
   const roles = await Role.find({ _id: { $in: user.roles } });
-  if(!roles.includes("admin"))return res.status(403).json({message:"Unauthorized"});
+  const listOfRoles= roles.map(rol=>rol.name);
+  if(!listOfRoles.includes("admin"))return res.status(403).json({message:"Unauthorized"});
   next();
 };
