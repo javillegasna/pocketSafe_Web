@@ -4,6 +4,10 @@ const accountSchema = new Schema({
     type: String,
     required: [true, "Name of account is required"],
   },
+  accountIcon: {
+    type: String,
+    required: [true, "Name of account is required"],
+  },
   currentAmount: {
     type: Number,
     required: [true, "Amount is required"],

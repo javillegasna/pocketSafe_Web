@@ -25,14 +25,14 @@ export const singIn = async (req, res) => {
     .populate("categories")
     .populate("accounts")
     .exec();
-  if (!userFound) return res.status(400).json({ message: "User not found" });
+  if (!userFound) return res.status(400).json({ message: "Please check your email" });
 
   const matchPassword = await User.comparePassword(
     req.body.password,
     userFound.password
   );
   if (!matchPassword)
-    return res.status(401).json({ message: "Invalid Password" });
+    return res.status(401).json({ message: "Please check your password" });
 
   const token = jwt.sign({ id: userFound.id }, config.SECRET, {
     expiresIn: 86400,

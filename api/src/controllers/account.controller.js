@@ -6,8 +6,8 @@ const handlerError = (res) => (err) => {
 };
 
 const create = (req, res) => {
-  const { accountName, currentAmount, transactions } = req.body;
-  Account.create({ accountName, currentAmount, transactions })
+  const { accountName,accountIcon, currentAmount, transactions } = req.body;
+  Account.create({ accountName,accountIcon, currentAmount, transactions })
     .then((newAccount) => res.status(201).json(newAccount))
     .catch(handlerError(res));
 };
@@ -41,10 +41,10 @@ const deleteOne = (req, res) => {
 
 const update = (req, res) => {
   const { accountId } = req.params;
-  const { accountName, currentAmount, transactions } = req.body;
+  const { accountName,accountIcon, currentAmount, transactions } = req.body;
   Account.findOneAndUpdate(
     { _id: accountId },
-    { accountName, currentAmount, transactions },
+    { accountName,accountIcon, currentAmount, transactions },
     { new: true }
   )
     .then((oneAccount) => res.json(oneAccount))

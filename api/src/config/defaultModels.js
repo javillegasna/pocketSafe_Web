@@ -40,16 +40,19 @@ const defaultCategories = [
 const defaultAccounts = [
   {
     accountName: "Debit Card",
+    accountIcon:"FaCreditCard",
     currentAmount: 0,
     transactions: [],
   },
   {
     accountName: "Cash",
+    accountIcon:"FaRegMoneyBillAlt",
     currentAmount: 0,
     transactions: [],
   },
   {
     accountName: "Bank Account",
+    accountIcon:"FaPiggyBank",
     currentAmount: 0,
     transactions: [],
   },
