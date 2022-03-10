@@ -106,3 +106,20 @@ body {
   height: 20px;
   margin-right: 10px;
 }
+.rounded-icon{
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+  font-size: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+  background-color: #72727254;
+}
+.grid-accounts{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.card-button:hover{
+  background-color: #a5a5a59d;
+} 

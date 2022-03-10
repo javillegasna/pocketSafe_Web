@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import Header from "../layout/Header";
 import SideBar from "../layout/SideBar";
 //Context
+import ConfigState from "../context/ConfigState";
 import UserContext from "../context/UserContext";
 const Layout = ({ render }) => {
   //Context
@@ -20,7 +21,7 @@ const Layout = ({ render }) => {
           <Header />
           <SideBar />
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            {render}
+              <ConfigState>{render}</ConfigState>
           </main>
         </>
       )}

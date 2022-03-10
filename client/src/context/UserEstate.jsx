@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Config from "../configuration/default.config";
 import UserContext from "./UserContext";
+import { deleteItem, getItems, postItem, putItem } from "../utils/httpActions";
 
 const UserState = (props) => {
   //States
@@ -10,26 +11,15 @@ const UserState = (props) => {
   const [token,setToken]=useState("")
   //Config
   const {API_URL}=Config;
+  const endpoint="user";
   //http actions
-  const deleteItem = (id) => {
+  const deleteUser = (id) => deleteItem(id, endpoint, setUserList, userList);
+  const getUsers = (set) => getItems(endpoint, set);
+  const postUser = (data) =>postItem(endpoint, setUserList, userList, data);
+  const putUser = (id, data) =>putItem(id, endpoint, setUserList, userList, data);
+  const getUser = (id, set) => {
     axios
-      .delete(`${API_URL}user/${id}`)
-      .then((res) =>
-        setUserList(userList.filter((user) => res.data._id !== user._id))
-      )
-      .catch((err) => console.log(err));
-  };
-  const getItems = (set) => {
-    axios
-      .get(`${API_URL}user/`)
-      .then((res) => {
-        set(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
-  const getItem = (id, set) => {
-    axios
-      .get(`${API_URL}/user/${id}`)
+      .get(`${API_URL}/${id}`)
       .then((res) => {
         const{userName,
           email,
@@ -44,24 +34,6 @@ const UserState = (props) => {
       })
       .catch((err) => console.log(err));
   };
-  const postItem = (data) =>
-    axios
-      .post(`${API_URL}/user`, data)
-      .then((res) => {
-        setUserList([res.data, ...userList]);
-      })
-      .catch((err) => err.response.data.data);
-  const putItem = (id, data) =>
-    axios
-      .put(`${API_URL}/user/${id}`, data)
-      .then((res) => {
-        const filteredItems = userList.filter(
-          (user) => res.data._id !== user._id
-        );
-        setUserList([res.data, ...filteredItems]);
-      })
-      .catch((err) => err.response.data.data.errors);
-
   return (
     <UserContext.Provider
       value={{
@@ -71,11 +43,11 @@ const UserState = (props) => {
         setUser,
         token,
         setToken,
-        deleteItem,
-        getItems,
-        getItem,
-        postItem,
-        putItem,
+        deleteUser,
+        getUsers,
+        getUser,
+        postUser,
+        putUser,
       }}
     >
       {props.children}

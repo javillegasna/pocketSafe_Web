@@ -13,7 +13,7 @@ const SideBar = () => {
       <li key={account._id} className="nav-item">
         <NavLink
           className="nav-link"
-          to={`/${user._id}/${account.accountName}`}
+          to={`/${user._id}/${account._id}`}
         >
           <Icon iconName={account.accountIcon} message={account.accountName} />
         </NavLink>

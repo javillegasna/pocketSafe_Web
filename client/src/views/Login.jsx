@@ -28,6 +28,7 @@ const Login = () => {
         localStorage.setItem("CurrentUser", JSON.stringify(user));
         localStorage.setItem("CurrentToken", JSON.stringify(token));
         setUser(user);
+        axios.defaults.headers.common['x-access-token']=token;
         setToken(token);
         navigate(`/${user._id}/home`)
         setMessageError("");

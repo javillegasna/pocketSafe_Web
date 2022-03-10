@@ -7,7 +7,8 @@ import Login from "./views/Login";
 import Layout from "./views/Layout";
 import EditCategories from "./views/EditCategories";
 import EditAccounts from "./views/EditAccounts";
-function App({render}) {
+import Account from "./views/Account";
+function App() {
   return (
     <BrowserRouter>
       <UserState>
@@ -17,6 +18,7 @@ function App({render}) {
             <Route path="home" element={<Layout render={<Home />} />} />
             <Route path="accounts" element={<Layout render={<EditAccounts/>} />} />
             <Route path="categories" element={<Layout render={<EditCategories />} />} />
+            <Route path=":accountId" element={<Layout render={<Account />} />} />
           </Route>
         </Routes>
       </UserState>
