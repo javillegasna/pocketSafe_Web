@@ -5,19 +5,22 @@ import ConfigContext from "./ConfigContext";
 import { deleteItem, getItems, postItem, putItem } from "../utils/httpActions";
 
 const UserState = (props) => {
-  //States
-  const [accountList, setAccountList] = useState([]);
-  const [account, setAccount] = useState({
+  //models
+  const AccountModel = {
     accountName: "",
     accountIcon: "",
     currentAmount: 0,
     transactions: [],
-  });
-  const [categoryList, setCategoryList] = useState([]);
-  const [category, setCategory] = useState({
+  };
+  const CategoryModel = {
     categoryName: "",
     iconName: "",
-  });
+  };
+  //States
+  const [accountList, setAccountList] = useState([AccountModel]);
+  const [account, setAccount] = useState(AccountModel);
+  const [categoryList, setCategoryList] = useState([CategoryModel]);
+  const [category, setCategory] = useState(CategoryModel);
   //Config
   const { API_URL } = Config;
   const accountEndpoint = "account";
@@ -29,16 +32,12 @@ const UserState = (props) => {
     postItem(accountEndpoint, setAccountList, accountList, data);
   const putAccount = (id, data) =>
     putItem(id, accountEndpoint, setAccountList, accountList, data);
-  const getAccount = (id, set) => {
-    axios
-      .get(`${API_URL}${accountEndpoint}/${id}`)
-      .then((res) => {
-        const { accountName, accountIcon, currentAmount, transactions } =
-          res.data;
-        set({ accountName, accountIcon, currentAmount, transactions });
-      })
-      .catch((err) => console.log(err));
-  };
+  const getAccount = (id, set) =>
+    axios.get(`${API_URL}${accountEndpoint}/${id}`).then((res) => {
+      const { accountName, accountIcon, currentAmount, transactions } =
+        res.data;
+      set({ accountName, accountIcon, currentAmount, transactions });
+    });
   const categoryEndpoint = "category";
   //http actions
   const deleteCategory = (id) =>
@@ -48,7 +47,7 @@ const UserState = (props) => {
     postItem(categoryEndpoint, setCategoryList, categoryList, data);
   const putCategory = (id, data) =>
     putItem(id, categoryEndpoint, setCategoryList, categoryList, data);
-  const getCategory = (id, set) => {
+  const getCategory = (id, set) =>
     axios
       .get(`${API_URL}${categoryEndpoint}/${id}`)
       .then((res) => {
@@ -56,7 +55,7 @@ const UserState = (props) => {
         set({ categoryName, iconName });
       })
       .catch((err) => console.log(err));
-  };
+
   return (
     <ConfigContext.Provider
       value={{

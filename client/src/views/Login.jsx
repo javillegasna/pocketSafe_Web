@@ -30,8 +30,8 @@ const Login = () => {
         setUser(user);
         axios.defaults.headers.common['x-access-token']=token;
         setToken(token);
-        navigate(`/${user._id}/home`)
         setMessageError("");
+        navigate(`/${user._id}/home`)
       }
       ).catch(({response})=>setMessageError(response.data.message));
   };

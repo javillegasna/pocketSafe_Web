@@ -7,33 +7,28 @@ import { deleteItem, getItems, postItem, putItem } from "../utils/httpActions";
 const UserState = (props) => {
   //States
   const [userList, setUserList] = useState([]);
-  const [user,setUser]=useState()
-  const [token,setToken]=useState("")
+  const [user, setUser] = useState();
+  const [token, setToken] = useState("");
   //Config
-  const {API_URL}=Config;
-  const endpoint="user";
+  const { API_URL } = Config;
+  const endpoint = "user";
   //http actions
-  const deleteUser = (id) => deleteItem(id, endpoint, setUserList, userList);
-  const getUsers = (set) => getItems(endpoint, set);
-  const postUser = (data) =>postItem(endpoint, setUserList, userList, data);
-  const putUser = (id, data) =>putItem(id, endpoint, setUserList, userList, data);
-  const getUser = (id, set) => {
+  const deleteUser =  (id) =>
+     deleteItem(id, endpoint, setUserList, userList);
+  const getUsers =  (set) =>  getItems(endpoint, set);
+  const postUser =  (data) =>
+     postItem(endpoint, setUserList, userList, data);
+  const putUser =  (id, data) =>
+     putItem(id, endpoint, setUserList, userList, data);
+  const getUser = (id, set) =>
     axios
       .get(`${API_URL}/${id}`)
       .then((res) => {
-        const{userName,
-          email,
-          roles,
-          categories,
-          accounts,}=res.data
-        set({userName,
-          email,
-          roles,
-          categories,
-          accounts,});
+        const { userName, email, roles, categories, accounts } = res.data;
+        set({ userName, email, roles, categories, accounts });
       })
       .catch((err) => console.log(err));
-  };
+
   return (
     <UserContext.Provider
       value={{

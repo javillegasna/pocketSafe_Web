@@ -73,6 +73,10 @@ const update = (req, res) => {
     { userName, email, password, roles, categories, accounts },
     { new: true }
   )
+    .populate("roles")
+    .populate("categories")
+    .populate("accounts")
+    .exec()
     .then((oneUser) => res.json(oneUser))
     .catch(handlerError(res));
 };

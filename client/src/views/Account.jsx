@@ -32,10 +32,12 @@ const Account = () => {
       </div>
       <div className="row justify-content-md-center">
         <div className="col-lg-4 card text-center">
-        <Icon customStyle="rounded-icon"
+          <Icon
+            customStyle="rounded-icon mt-3"
             iconName={account.accountIcon}
           />
-          <h2>Amount: {account.currentAmount}</h2>
+          <h2>{account.accountName}</h2>
+          <h3>Amount: {account.currentAmount}</h3>
         </div>
       </div>
     </>

@@ -17,6 +17,7 @@ const Home = () => {
         className="card card-button text-center"
       >
         <Icon customStyle="rounded-icon" iconName={account.accountIcon} />
+        <h2>{account.accountName}</h2>
         <h2>Amount: {account.currentAmount}</h2>
       </button>
     ));
