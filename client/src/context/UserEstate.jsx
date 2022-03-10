@@ -13,19 +13,18 @@ const UserState = (props) => {
   const { API_URL } = Config;
   const endpoint = "user";
   //http actions
-  const deleteUser =  (id) =>
-     deleteItem(id, endpoint, setUserList, userList);
-  const getUsers =  (set) =>  getItems(endpoint, set);
-  const postUser =  (data) =>
-     postItem(endpoint, setUserList, userList, data);
-  const putUser =  (id, data) =>
-     putItem(id, endpoint, setUserList, userList, data);
+  const deleteUser = (id) => deleteItem(id, endpoint, setUserList, userList);
+  const getUsers = (set) => getItems(endpoint, set);
+  const postUser = (data) => postItem(endpoint, setUserList, userList, data);
+  const putUser = (id, data) =>
+    putItem(id, endpoint, setUserList, userList, data);
   const getUser = (id, set) =>
     axios
       .get(`${API_URL}/${id}`)
       .then((res) => {
-        const { userName, email, roles, categories, accounts } = res.data;
-        set({ userName, email, roles, categories, accounts });
+        const { userName, email, roles, password, categories, accounts } =
+          res.data;
+        set({ userName, email, roles, password, categories, accounts });
       })
       .catch((err) => console.log(err));
 

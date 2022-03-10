@@ -1,26 +1,17 @@
 import { Link } from "react-router-dom";
-import GenericButton from "../components/GenericButton";
 import Icon from "../components/Icon";
 const GenericList = ({ list,idFather, actions }) => {
   const renderItem = (list) =>
-    list.map((item, index) => (
+    list.map((item) => (
       <tr key={`${item.id}`}>
         <td>
           <Icon iconName={item.icon} />
         </td>
         {idFather?<td><Link to={`/${idFather}/${item.id}`} >{item.name}</Link></td>:<td>{item.name}</td>}
         <td>
-          <GenericButton
-            action={actions.edit}
-            message={"edit"}
-            typeStyle={"primary"}
-          />
+        <button type="button" onClick={(e)=>actions.edit(item)} className={"btn btn-outline-primary"}>edit</button>
           {" | "}
-          <GenericButton
-            action={actions.delete}
-            message={"delete"}
-            typeStyle={"danger"}
-          />
+          <button type="button" onClick={(e)=>actions.delete(item)} className={"btn btn-outline-danger"}>delete</button>
         </td>
       </tr>
     ));

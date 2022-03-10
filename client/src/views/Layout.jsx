@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import axios from "axios";
 import Header from "../layout/Header";
 import SideBar from "../layout/SideBar";
 //Context
@@ -9,9 +10,9 @@ const Layout = ({ render }) => {
   const { setUser, user } = useContext(UserContext);
   useEffect(() => {
     const data = localStorage.getItem("CurrentUser");
-    if (data) {
-      setUser(JSON.parse(data));
-    }
+    if (data)  setUser(JSON.parse(data));
+    const token = localStorage.getItem("CurrentToken");
+    if (token) axios.defaults.headers.common['x-access-token']=JSON.parse(token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

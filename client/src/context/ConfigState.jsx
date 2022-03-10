@@ -4,7 +4,7 @@ import Config from "../configuration/default.config";
 import ConfigContext from "./ConfigContext";
 import { deleteItem, getItems, postItem, putItem } from "../utils/httpActions";
 
-const UserState = (props) => {
+const ConfigState = (props) => {
   //models
   const AccountModel = {
     accountName: "",
@@ -25,8 +25,8 @@ const UserState = (props) => {
   const { API_URL } = Config;
   const accountEndpoint = "account";
   //http actions
-  const deleteAccount = (id) =>
-    deleteItem(id, accountEndpoint, setAccountList, accountList);
+  const deleteAccount = (id,idFather) =>
+    deleteItem(id, accountEndpoint, setAccountList, accountList,idFather);
   const getAccounts = (set) => getItems(accountEndpoint, set);
   const postAccount = (data) =>
     postItem(accountEndpoint, setAccountList, accountList, data);
@@ -34,9 +34,10 @@ const UserState = (props) => {
     putItem(id, accountEndpoint, setAccountList, accountList, data);
   const getAccount = (id, set) =>
     axios.get(`${API_URL}${accountEndpoint}/${id}`).then((res) => {
-      const { accountName, accountIcon, currentAmount, transactions } =
+      const {_id, accountName, accountIcon, currentAmount, transactions } =
         res.data;
-      set({ accountName, accountIcon, currentAmount, transactions });
+      set({_id, accountName, accountIcon, currentAmount, transactions });
+      return {_id, accountName, accountIcon, currentAmount, transactions };
     });
   const categoryEndpoint = "category";
   //http actions
@@ -51,8 +52,9 @@ const UserState = (props) => {
     axios
       .get(`${API_URL}${categoryEndpoint}/${id}`)
       .then((res) => {
-        const { categoryName, iconName } = res.data;
-        set({ categoryName, iconName });
+        const { _id,categoryName, iconName } = res.data;
+        set({_id, categoryName, iconName });
+        return {_id, categoryName, iconName };
       })
       .catch((err) => console.log(err));
 
@@ -84,4 +86,4 @@ const UserState = (props) => {
   );
 };
 
-export default UserState;
+export default ConfigState;

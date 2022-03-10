@@ -6,7 +6,7 @@ import * as categoryCtrl from "../controllers/category.controller"
 import {verifyToken} from "../middlewares/authjwt";
 //actions
 const router = Router();
-router.post('/',verifyToken,categoryCtrl.create);
+router.post('/',verifyToken,verifyToken,categoryCtrl.create);
 router.get('/',verifyToken,categoryCtrl.findAll);
 router.get('/:categoryId',verifyToken,categoryCtrl.findOne);
 router.put('/:categoryId',verifyToken,categoryCtrl.update)

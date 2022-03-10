@@ -1,5 +1,6 @@
 body {
-  font-size: .875rem;
+  font-size: 0.875rem;
+  width: 100%;
 }
 
 .feather {
@@ -23,90 +24,87 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-@media (max-width: 767.98px) {
-  .sidebar {
-    top: 5rem;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+  &-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
   }
-}
+  .nav-link {
+    font-weight: 500;
+    margin-right: 4px;
+    color: #727272;
+  }
+  .nav-link.active {
+    color: #2470dc;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: #2470dc;
+  }
 
-.sidebar-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
-  padding-top: .5rem;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-}
-
-
-.sidebar .nav-link {
-  font-weight: 500;
-  margin-right: 4px;
-  color: #727272;
-}
-
-.sidebar .nav-link.active {
-  color: #2470dc;
-}
-
-.sidebar .nav-link:hover ,
-.sidebar .nav-link.active{
-  color: #2470dc;
-}
-
-.sidebar-heading {
-  font-size: .75rem;
-  text-transform: uppercase;
+  &-heading {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
 }
 
 /*
  * Navbar
  */
-
-.navbar-brand {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  font-size: 1rem;
-  background-color: rgba(0, 0, 0, .25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+.navbar {
+  &-brand {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+  }
+  &-toggler {
+    top: 0.25rem;
+    right: 1rem;
+  }
+  .form-control {
+    padding: 0.75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+  }
 }
-
-.navbar .navbar-toggler {
-  top: .25rem;
-  right: 1rem;
+//form
+.form {
+  &-button {
+    width: 80%;
+    margin: 12px auto;
+    font-size: bold;
+    border: none;
+  }
 }
-
-.navbar .form-control {
-  padding: .75rem 1rem;
-  border-width: 0;
-  border-radius: 0;
-}
-
-.form-control-dark {
-  color: #fff;
-  background-color: rgba(255, 255, 255, .1);
-  border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+.form-control {
+  &-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  &-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  }
 }
 /*
  * Images and icons
  */
-.img-logo{
+.img-logo {
   width: 25px;
 }
-.icon{
+.icon {
   width: 20px;
   height: 20px;
   margin-right: 10px;
 }
-.rounded-icon{
+.rounded-icon {
   margin: 0 auto;
   width: 80px;
   height: 80px;
@@ -115,15 +113,62 @@ body {
   vertical-align: middle;
   background-color: #72727254;
 }
-.grid-accounts{
+/*
+ * card
+ */
+.card {
+  margin: 0 auto;
+  width: 100%;
+  &-button:hover {
+    background-color: #a5a5a59d;
+  }
+  &-form {
+    width: 300px;
+  }
+}
+/*
+ * modal scroll
+ */
+.scroll {
+  background-color: #cccccce1;
+  width: 400px;
+  position: absolute;
+  top: 10px;
+  right: calc(50% - 200px);
+  &-bag {
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 50px;
+  }
+  &-div {
+    height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  &-object {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  &-object .btn{
+    width: 20px;
+  }
+}
+/*
+ * others
+ */
+.grid-accounts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
 }
-.card-button:hover{
-  background-color: #a5a5a59d;
-}
-.content-form{
+
+.content-form {
   width: 40%;
   margin: 0 auto;
+}
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
 }

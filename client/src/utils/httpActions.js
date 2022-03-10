@@ -1,8 +1,8 @@
 import axios from "axios";
 import Config from "../configuration/default.config";
 const { API_URL } = Config;
-export const deleteItem = async (id, endpoint, set, list) =>
-  await axios.delete(API_URL + endpoint + "/" + id).then((res) => {
+export const deleteItem = async (id, endpoint, set, list,idFather="") =>
+  await axios.delete(`${API_URL}${endpoint}/${idFather?`${idFather}/${id}`:`${id}`}`).then((res) => {
     set(list.filter((item) => res.data._id !== item._id));
     return res.data;
   });

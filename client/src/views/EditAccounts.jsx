@@ -1,39 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../context/UserContext";
 import ConfigContext from "../context/ConfigContext";
 import Icon from "../components/Icon";
 import GenericList from "../components/GenericList";
-
+import * as FontAwesome from "react-icons/fa";
+import ModalGrid from "../components/ModalGrid";
 const EditAccounts = () => {
+  //context
   const { user, setUser, putUser } = useContext(UserContext);
-  const { postAccount, setAccountList } = useContext(ConfigContext);
-  const [frmAccount, setFormAccount] = useState({
+  //estates
+  const { postAccount, deleteAccount, putAccount } = useContext(ConfigContext);
+  const [frmOpen, setFrmOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [formAccount, setFormAccount] = useState({
     accountName: "",
     accountIcon: "FaExclamationCircle",
     currentAmount: 0,
     transactions: [],
   });
-  //effects
-  const [frmOpen, setFrmOpen] = useState(false);
-  useEffect(() => {
-    setAccountList(user.accounts);
-  }, []);
   //handlers
+
   const handlerSubmit = (e) => {
     e.preventDefault();
-    postAccount(frmAccount)
+    const action = editing
+      ? putAccount(formAccount._id, formAccount)
+      : postAccount(formAccount);
+    action
       .then((account) => {
         const { accounts } = user;
         return putUser(user._id, {
           ...user,
-          accounts: [...accounts, account],
+          accounts: editing ? accounts : [...accounts, account],
         });
       })
       .then((user) => {
         setUser(user);
         localStorage.setItem("CurrentUser", JSON.stringify(user));
+        setFrmOpen(false);
+        setEditing(false);
       })
       .catch((err) => console.error(err));
   };
@@ -55,8 +62,20 @@ const EditAccounts = () => {
       </div>
 
       {frmOpen && (
-        <form onSubmit={handlerSubmit} className="content-form card mb-3">
-          <Icon customStyle="rounded-icon text-center mt-2" />
+        <form
+          onSubmit={handlerSubmit}
+          className="content-form card card-form mb-3"
+        >
+          <button
+            onClick={() => setModalOpen(true)}
+            type="button"
+            className=" btn btn-outline-secondary form-button text-center mt-2"
+          >
+            <Icon
+              customStyle={"rounded-icon"}
+              iconName={formAccount.accountIcon}
+            />
+          </button>
 
           <fieldset className="form-floating m-2">
             <input
@@ -64,14 +83,14 @@ const EditAccounts = () => {
               className="form-control"
               placeholder="Account Name"
               type="text"
-              value={frmAccount.accountName}
+              value={formAccount.accountName}
               onChange={(e) =>
-                setFormAccount({ ...frmAccount, accountName: e.target.value })
+                setFormAccount({ ...formAccount, accountName: e.target.value })
               }
             />
             <label htmlFor="floatingInput">Account Name:</label>
           </fieldset>
-          <button className="w-50 m-3 fw-bold btn btn-dark" type="submit">
+          <button className="btn btn-dark form-button" type="submit">
             Sign in
           </button>
         </form>
@@ -83,11 +102,36 @@ const EditAccounts = () => {
           icon: el.accountIcon,
         }))}
         actions={{
-          edit: () => console.log("editing"),
-          delete: () => console.log("deleting"),
+          edit: (item) => {
+            setFormAccount({
+              ...formAccount,
+              _id: item.id,
+              accountName: item.name,
+              accountIcon: item.icon,
+            });
+            setFrmOpen(true);
+            setEditing(true);
+          },
+          delete: (item) => {
+            deleteAccount(item.id, user._id)
+              .then((user) => {
+                localStorage.setItem("CurrentUser", JSON.stringify(user));
+                setUser(user);
+              })
+              .catch((err) => console.log(err));
+          },
         }}
         idFather={user._id}
       />
+      {modalOpen && (
+        <ModalGrid
+          listIcons={Object.keys(FontAwesome)}
+          setProperty={setFormAccount}
+          setState={setModalOpen}
+          property={formAccount}
+          state={false}
+        />
+      )}
     </>
   );
 };
