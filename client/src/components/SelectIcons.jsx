@@ -1,24 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import Icon from "./Icon";
 
-function SelectIcons({setValue,value,list,tag,tagValue, icon, name}) {
+function SelectIcons({setValue,value,list,tag}) {
 
-  const [selectedOption, setSelectedOption] = useState(list[0]);
+  const [selectedOption, setSelectedOption] = useState();
 
   const handleChange = (option) => {
     setSelectedOption(option);
     setValue({...value,[tag]:option.id})
   };
-  useEffect(() => {
-    setSelectedOption(list[0])
-  }, [list]);
-
   return (
     <div className="SelectIcons">
       <Select
-        value={selectedOption}
+        value={selectedOption||list[0]}
         options={list}
         onChange={handleChange}
         getOptionLabel={(option) => (

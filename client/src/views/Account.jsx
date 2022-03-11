@@ -10,22 +10,48 @@ import Icon from "../components/Icon";
 import { modelTransaction } from "../utils/models";
 import SelectIcons from "../components/SelectIcons";
 const Account = () => {
-  const { account, setAccount } = useContext(ConfigContext);
-  const { user } = useContext(UserContext);
+  //context
+  const { account, setAccount, putAccount } = useContext(ConfigContext);
+  const { user, putUser, setUser } = useContext(UserContext);
+  //navigate
   const { accountId } = useParams();
+  //states
   const [formType, setFormType] = useState({
     type: "Aggregate",
     style: "success",
   });
   const [formOpen, setFormOpen] = useState(false);
-
   const [transaction, setTransaction] = useState(modelTransaction);
+  //effects
   useEffect(() => {
     const foundAccount = user.accounts.find(
       (element) => element._id === accountId
     );
     if (foundAccount) setAccount(foundAccount);
   }, [accountId]);
+  //handlers
+  const handlerSubmit = (e) => {
+    e.preventDefault()
+    putAccount(accountId, {
+      ...account,
+      currentAmount:
+        formType.type === "Aggregate"
+          ? (account.currentAmount += transaction.value)
+          : (account.currentAmount -= transaction.value),
+      transactions: [...account.transactions, transaction],
+    })
+      .then((account) => {
+        setAccount(account);
+        return putUser(user._id, user);
+      })
+      .then((user) => {
+        setUser(user);
+        setTransaction(modelTransaction)
+        localStorage.setItem("CurrentUser", JSON.stringify(user));
+        setFormOpen(false);
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -34,12 +60,13 @@ const Account = () => {
           <div className="btn-group mr-2">
             <button
               onClick={() => {
+                setFormOpen(false);
                 setFormType({ type: "Aggregate", style: "success" });
                 setTransaction({
                   ...transaction,
                   type: "Aggregate",
                   destination: "",
-                  origin:"",
+                  origin: "",
                   category: user.categories[0]._id,
                 });
                 setFormOpen(true);
@@ -55,7 +82,7 @@ const Account = () => {
                   ...transaction,
                   type: "Expense",
                   destination: "",
-                  origin:"",
+                  origin: "",
                   category: user.categories[0]._id,
                 });
                 setFormOpen(true);
@@ -93,7 +120,10 @@ const Account = () => {
         </div>
       </div>
       {formOpen && (
-        <form onSubmit={""} className="content-form card card-form mt-3 p-3">
+        <form
+          onSubmit={handlerSubmit}
+          className="content-form card card-form mt-3 p-3"
+        >
           <fieldset className="form-floating m-2">
             <input
               id="floatingInput"
