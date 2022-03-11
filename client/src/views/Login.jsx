@@ -65,7 +65,7 @@ const Login = () => {
           <label htmlFor="floatingPassword">Password</label>
         </fieldset>
         {messageError !== "" && (
-          <div id="emailHelp" class="form-text">
+          <div id="emailHelp" className="form-text">
             {messageError}
           </div>
         )}

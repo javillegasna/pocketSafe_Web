@@ -36,7 +36,7 @@ const ConfigState = (props) => {
     axios.get(`${API_URL}${accountEndpoint}/${id}`).then((res) => {
       const {_id, accountName, accountIcon, currentAmount, transactions } =
         res.data;
-      set({_id, accountName, accountIcon, currentAmount, transactions });
+      if(set)set({_id, accountName, accountIcon, currentAmount, transactions });
       return {_id, accountName, accountIcon, currentAmount, transactions };
     });
   const categoryEndpoint = "category";

@@ -11,7 +11,8 @@ import { modelTransaction } from "../utils/models";
 import SelectIcons from "../components/SelectIcons";
 const Account = () => {
   //context
-  const { account, setAccount, putAccount } = useContext(ConfigContext);
+  const { account, setAccount, putAccount } =
+    useContext(ConfigContext);
   const { user, putUser, setUser } = useContext(UserContext);
   //navigate
   const { accountId } = useParams();
@@ -31,13 +32,21 @@ const Account = () => {
   }, [accountId]);
   //handlers
   const handlerSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    if (formType.type === "Transfer") {
+      const destinationAccount=user.accounts.find((element) => element._id === transaction.destination);
+      putAccount(destinationAccount._id, {
+        ...destinationAccount,
+        currentAmount: (destinationAccount.currentAmount += parseInt(transaction.value)),
+        transactions: [...destinationAccount.transactions, transaction],
+      })
+    }
     putAccount(accountId, {
       ...account,
       currentAmount:
         formType.type === "Aggregate"
-          ? (account.currentAmount += transaction.value)
-          : (account.currentAmount -= transaction.value),
+          ? (account.currentAmount += parseInt(transaction.value))
+          : (account.currentAmount -= parseInt(transaction.value)),
       transactions: [...account.transactions, transaction],
     })
       .then((account) => {
@@ -46,7 +55,7 @@ const Account = () => {
       })
       .then((user) => {
         setUser(user);
-        setTransaction(modelTransaction)
+        setTransaction(modelTransaction);
         localStorage.setItem("CurrentUser", JSON.stringify(user));
         setFormOpen(false);
       })
