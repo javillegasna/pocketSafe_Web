@@ -41,8 +41,8 @@ const ConfigState = (props) => {
     });
   const categoryEndpoint = "category";
   //http actions
-  const deleteCategory = (id) =>
-    deleteItem(id, categoryEndpoint, setCategoryList, categoryList);
+  const deleteCategory = (id,idFather) =>
+    deleteItem(id, categoryEndpoint, setCategoryList, categoryList,idFather);
   const getCategories = (set) => getItems(categoryEndpoint, set);
   const postCategory = (data) =>
     postItem(categoryEndpoint, setCategoryList, categoryList, data);

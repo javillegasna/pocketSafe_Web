@@ -34,6 +34,10 @@ const deleteOne = (req, res) => {
         { $pull: { categories: category._id } },
         { new: true }
       )
+        .populate("roles")
+        .populate("categories")
+        .populate("accounts")
+        .exec()
     )
     .then((user) => res.json(user))
     .catch(handlerError(res));

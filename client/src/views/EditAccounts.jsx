@@ -7,6 +7,7 @@ import Icon from "../components/Icon";
 import GenericList from "../components/GenericList";
 import * as FontAwesome from "react-icons/fa";
 import ModalGrid from "../components/ModalGrid";
+import { modelAccount } from "../utils/models";
 const EditAccounts = () => {
   //context
   const { user, setUser, putUser } = useContext(UserContext);
@@ -15,12 +16,7 @@ const EditAccounts = () => {
   const [frmOpen, setFrmOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [formAccount, setFormAccount] = useState({
-    accountName: "",
-    accountIcon: "FaExclamationCircle",
-    currentAmount: 0,
-    transactions: [],
-  });
+  const [formAccount, setFormAccount] = useState(modelAccount);
   //handlers
 
   const handlerSubmit = (e) => {
@@ -50,7 +46,11 @@ const EditAccounts = () => {
         <h1 className="h1">EditAccounts</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
           <button
-            onClick={() => setFrmOpen(!frmOpen)}
+            onClick={() => {
+              setEditing(false);
+              setFormAccount(modelAccount);
+              setFrmOpen(!frmOpen);
+            }}
             className="btn btn-sm btn-outline-secondary "
           >
             <Icon
@@ -123,15 +123,15 @@ const EditAccounts = () => {
         }}
         idFather={user._id}
       />
-      {modalOpen && (
-        <ModalGrid
-          listIcons={Object.keys(FontAwesome)}
-          setProperty={setFormAccount}
-          setState={setModalOpen}
-          property={formAccount}
-          state={false}
-        />
-      )}
+      <ModalGrid
+        listIcons={Object.keys(FontAwesome)}
+        action={(icon) => {
+          setFormAccount({ ...formAccount, accountIcon: icon });
+          setModalOpen(false);
+        }}
+        close={() => setModalOpen(false)}
+        visible={modalOpen}
+      />
     </>
   );
 };

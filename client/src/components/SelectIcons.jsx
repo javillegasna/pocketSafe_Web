@@ -1,94 +1,30 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Icon from "./Icon";
 
-function SelectIcons({setValue,value}) {
-  const data = [
-    {
-      value: "FaBus",
-      text:"Transport",
-      icon: <Icon iconName={"FaBus"} />,
-    },
-    {
-      value: "FaAmazon",
-      text:"OnLine shopping",
-      icon: <Icon iconName={"FaAmazon"} />,
-    },
-    {
-      value: "FaAvianex",
-      text:"Travels",
-      icon: <Icon iconName={"FaAvianex"} />,
-    },
-    {
-      value: "FaBlackTie",
-      text:"Clothes",
-      icon: <Icon iconName={"FaBlackTie"} />,
-    },
-    {
-      value: "FaItunesNote",
-      text:"Entertainment",
-      icon: <Icon iconName={"FaItunesNote"} />,
-    },
-    {
-      value: "FaUsb",
-      text:"Technology",
-      icon: <Icon iconName={"FaUsb"} />,
-    },
-    {
-      value: "FaXbox",
-      text:"Games",
-      icon: <Icon iconName={"FaXbox"} />,
-    },
-    {
-      value: "FaAmbulance",
-      text:"Medical Expenses",
-      icon: <Icon iconName={"FaAmbulance"} />,
-    },
-    {
-      value: "FaCarrot",
-      text:"Food",
-      icon: <Icon iconName={"FaCarrot"} />,
-    },
-    {
-      value: "FaChargingStation",
-      text:"Gasoline",
-      icon: <Icon iconName={"FaChargingStation"} />,
-    },
-    {
-      value: "FaCogs",
-      text:"Repairs",
-      icon: <Icon iconName={"FaCogs"} />,
-    },
-    {
-      value: "FaFireExtinguisher",
-      text:"Accidents",
-      icon: <Icon iconName={"FaFireExtinguisher"} />,
-    },
-    {
-      value: "FaPaw",
-      text:"Pets",
-      icon: <Icon iconName={"FaPaw"} />,
-    },
-  ];
+function SelectIcons({setValue,value,list,tag,tagValue, icon, name}) {
 
-  const [selectedOption, setSelectedOption] = useState(data[0]);
+  const [selectedOption, setSelectedOption] = useState(list[0]);
 
-  const handleChange = (e) => {
-    setSelectedOption(e);
-    setValue({...value,icon:e.value})
+  const handleChange = (option) => {
+    setSelectedOption(option);
+    setValue({...value,[tag]:option.id})
   };
+  useEffect(() => {
+    setSelectedOption(list[0])
+  }, [list]);
 
   return (
     <div className="SelectIcons">
       <Select
-        placeholder="Select Option"
         value={selectedOption}
-        options={data}
+        options={list}
         onChange={handleChange}
-        getOptionLabel={(e) => (
+        getOptionLabel={(option) => (
           <div style={{ display: "flex", alignItems: "center" }}>
-            {e.icon}
-            <span style={{ marginLeft: 5 }}>{e.text}</span>
+            <Icon iconName={option.icon}/>
+            <span style={{ marginLeft: 5 }}>{option.name}</span>
           </div>
         )}
       />

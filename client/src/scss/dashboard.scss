@@ -153,6 +153,9 @@ body {
   &-object .btn{
     width: 20px;
   }
+  &-invisible{
+    visibility: hidden;
+  }
 }
 /*
  * others

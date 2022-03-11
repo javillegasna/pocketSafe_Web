@@ -16,7 +16,7 @@ const accountSchema = new Schema({
     type: { type: String, required: [true, "Type of transaction is required"] },
     value: {type:Number, required: [true, "Value of transaction is required"]},
     date: {type:Date, required:[true, "Date of transaction is required"]},
-    category:{type:String, required:[true, "Origin of transaction is required"]},
+    category:String,
     origin: String,
     destination : String,
     description: String
