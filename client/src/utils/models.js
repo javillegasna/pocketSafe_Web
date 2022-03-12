@@ -13,6 +13,7 @@ export const modelTransaction =
   {
     type: "",
     value: "",
+    previousAmount:0,
     date: today.toISOString(),
     category:"",
     origin: "",

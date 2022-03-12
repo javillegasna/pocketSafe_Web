@@ -1,3 +1,12 @@
+:root {
+  --color-summary-1: #f8ffee;
+  --color-summary-1-highlight: #198754;
+  --color-summary-2: #e6e6ff;
+  --color-summary-2-highlight: #6c757d;
+  --color-summary-3: #fff0f3;
+  --color-summary-3-highlight: #dc3545;
+
+}
 body {
   font-size: 0.875rem;
   width: 100%;
@@ -75,12 +84,18 @@ body {
 }
 //form
 .form {
+  position: relative;
   &-button {
     width: 80%;
     margin: 12px auto;
     font-size: bold;
     border: none;
   }
+}
+.btn-close{
+  position: absolute;
+  right: 4px;
+  top: 4px;
 }
 .form-control {
   &-dark {
@@ -150,10 +165,10 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 10px;
   }
-  &-object .btn{
+  &-object .btn {
     width: 20px;
   }
-  &-invisible{
+  &-invisible {
     visibility: hidden;
   }
 }
@@ -170,6 +185,66 @@ body {
   width: 40%;
   margin: 0 auto;
 }
+//accordion tags
+summary {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--color-title);
+}
+
+details {
+  display: flex;
+
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 15px solid gray;
+
+  &.Aggregate {
+    --highlight: var(--color-summary-1-highlight);
+    background: var(--color-summary-1);
+    border-left-color: var(--color-summary-1-highlight);
+  }
+
+  &.Transfer {
+    --highlight: var(--color-summary-2-highlight);
+    background: var(--color-summary-2);
+    border-left-color: var(--color-summary-2-highlight);
+  }
+
+  &.Expense {
+    --highlight: var(--color-summary-3-highlight);
+    background: var(--color-summary-3);
+    border-left-color: var(--color-summary-3-highlight);
+  }
+
+  summary,
+  div {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    padding: 5px;
+    cursor: pointer;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &:focus {
+      outline: solid 3px var(--highlight);
+    }
+    &::selection {
+      background-color: var(--highlight);
+    }
+  }
+}
+
+//media queries
 @media (max-width: 767.98px) {
   .sidebar {
     top: 5rem;

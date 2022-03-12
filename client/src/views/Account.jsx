@@ -11,18 +11,17 @@ import { modelTransaction } from "../utils/models";
 import SelectIcons from "../components/SelectIcons";
 const Account = () => {
   //context
-  const { account, setAccount, putAccount } =
-    useContext(ConfigContext);
+  const { account, setAccount, putAccount } = useContext(ConfigContext);
   const { user, putUser, setUser } = useContext(UserContext);
   //navigate
   const { accountId } = useParams();
   //states
+  const [formOpen, setFormOpen] = useState(false);
+  const [transaction, setTransaction] = useState(modelTransaction);
   const [formType, setFormType] = useState({
     type: "Aggregate",
     style: "success",
   });
-  const [formOpen, setFormOpen] = useState(false);
-  const [transaction, setTransaction] = useState(modelTransaction);
   //effects
   useEffect(() => {
     const foundAccount = user.accounts.find(
@@ -30,23 +29,31 @@ const Account = () => {
     );
     if (foundAccount) setAccount(foundAccount);
   }, [accountId]);
+  useEffect(() => {
+    if (account)
+      setTransaction({ ...transaction, previousAmount: account.currentAmount });
+  }, [formOpen]);
   //handlers
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (formType.type === "Transfer") {
-      const destinationAccount=user.accounts.find((element) => element._id === transaction.destination);
+      const destinationAccount = user.accounts.find(
+        (element) => element._id === transaction.destination
+      );
       putAccount(destinationAccount._id, {
         ...destinationAccount,
-        currentAmount: (destinationAccount.currentAmount += parseInt(transaction.value)),
+        currentAmount: (destinationAccount.currentAmount += parseFloat(
+          transaction.value
+        ).toFixed(2)),
         transactions: [...destinationAccount.transactions, transaction],
-      })
+      });
     }
     putAccount(accountId, {
       ...account,
       currentAmount:
         formType.type === "Aggregate"
-          ? (account.currentAmount += parseInt(transaction.value))
-          : (account.currentAmount -= parseInt(transaction.value)),
+          ? (account.currentAmount += parseFloat(transaction.value).toFixed(2))
+          : (account.currentAmount -= parseFloat(transaction.value).toFixed(2)),
       transactions: [...account.transactions, transaction],
     })
       .then((account) => {
@@ -63,13 +70,13 @@ const Account = () => {
   };
   return (
     <>
+      {/* Header of account view */}
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 className="h1">{account.accountName}</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
           <div className="btn-group mr-2">
             <button
               onClick={() => {
-                setFormOpen(false);
                 setFormType({ type: "Aggregate", style: "success" });
                 setTransaction({
                   ...transaction,
@@ -118,21 +125,29 @@ const Account = () => {
           </div>
         </div>
       </div>
-      <div className="row justify-content-md-center">
+      {/* Card of specific account */}
+      <div className="mb-3 justify-content-md-center">
         <div className="col-lg-4 card text-center">
           <Icon
             customStyle="rounded-icon mt-3"
             iconName={account.accountIcon}
           />
           <h2>{account.accountName}</h2>
-          <h3>Amount: {account.currentAmount}</h3>
+          <h3>Amount: {account.currentAmount} $</h3>
         </div>
       </div>
+      {/* general form of transactions */}
       {formOpen && (
         <form
           onSubmit={handlerSubmit}
-          className="content-form card card-form mt-3 p-3"
+          className="content-form card card-form mt-3 mb-3 p-3"
         >
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setFormOpen(false)}
+          />
+
           <fieldset className="form-floating m-2">
             <input
               id="floatingInput"
@@ -218,6 +233,64 @@ const Account = () => {
           </button>
         </form>
       )}
+
+      {account.transactions.map((transaction) => {
+        const {
+          _id,
+          type,
+          value,
+          previousAmount,
+          category,
+          description,
+          origin,
+          destination,
+        } = transaction;
+        const { accounts, categories } = user;
+        const foundOrigin = accounts.find((el) => el._id === origin);
+        const foundDestination = accounts.find((el) => el._id === destination);
+        const foundCategory = categories.find((el) => (el._id = category));
+        return (
+          <details key={_id} className={type}>
+            <summary>
+              <div>
+                {type === "Transfer" ? (
+                  <BiTransfer />
+                ) : type === "Aggregate" ? (
+                  <BsCashCoin />
+                ) : (
+                  <RiHandCoinFill />
+                )}
+              </div>
+              <div>{`${type}: $${value}`}</div>
+            </summary>
+            <div>{`Previous: $${previousAmount} `}</div>
+            {category && (
+              <div>
+                <span className="pt-1">Category:</span>{" "}
+                <Icon
+                  iconName={foundCategory.iconName}
+                  message={foundCategory.categoryName}
+                />
+              </div>
+            )}
+            {origin && (
+              <div>
+                <span className="pt-1">Origin:</span>
+                <Icon
+                  iconName={foundOrigin.accountIcon}
+                  message={foundOrigin.accountName}
+                />{" "}
+                <span className="pt-1">Destination:</span>
+                <Icon
+                  iconName={foundDestination.accountIcon}
+                  message={foundDestination.accountName}
+                />
+              </div>
+            )}
+            {description && <div> {description} </div>}
+          </details>
+        );
+      })}
     </>
   );
 };

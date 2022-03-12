@@ -18,7 +18,6 @@ const EditAccounts = () => {
   const [editing, setEditing] = useState(false);
   const [formAccount, setFormAccount] = useState(modelAccount);
   //handlers
-
   const handlerSubmit = (e) => {
     e.preventDefault();
     const action = editing
@@ -100,6 +99,8 @@ const EditAccounts = () => {
           id: el._id,
           name: el.accountName,
           icon: el.accountIcon,
+          amount:el.currentAmount,
+          transactions:el.transactions
         }))}
         actions={{
           edit: (item) => {
@@ -108,6 +109,8 @@ const EditAccounts = () => {
               _id: item.id,
               accountName: item.name,
               accountIcon: item.icon,
+              currentAmount: item.amount,
+              transactions:item.transactions
             });
             setFrmOpen(true);
             setEditing(true);

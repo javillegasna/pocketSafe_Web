@@ -18,7 +18,7 @@ const Home = () => {
       >
         <Icon customStyle="rounded-icon" iconName={account.accountIcon} />
         <h2 className="h3">{account.accountName}</h2>
-        <h2 className="h3">Amount: {account.currentAmount}</h2>
+        <h2 className="h2">{account.currentAmount}$</h2>
       </button>
     ));
   return (

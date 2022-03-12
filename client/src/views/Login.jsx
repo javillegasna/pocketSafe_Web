@@ -40,7 +40,7 @@ const Login = () => {
     <main className="signIn">
       <form onSubmit={handlerSubmit} className="signIn__form">
         <GiWallet className="form-icon" />
-        <h1 className="h3 mb-3 fw-bold">Pocket Safe SignIn</h1>
+        <h1 className="h3 mb-3 fw-bold text-withe">Pocket Safe SignIn</h1>
 
         <fieldset className="form-floating">
           <input
