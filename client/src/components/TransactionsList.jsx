@@ -23,7 +23,7 @@ const TransactionsList = () => {
         const { accounts, categories } = user;
         const foundOrigin = accounts.find((el) => el._id === origin);
         const foundDestination = accounts.find((el) => el._id === destination);
-        const foundCategory = categories.find((el) => (el._id === category));
+        const foundCategory = categories.find((el) => el._id === category);
         return (
           <details key={_id} className={type}>
             <summary>
