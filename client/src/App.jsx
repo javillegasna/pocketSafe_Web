@@ -4,7 +4,7 @@ import UserState from "./context/UserEstate";
 //Components
 import Home from "./views/Home";
 import Login from "./views/Login";
-import Layout from "./views/Layout";
+import Layout from "./layout/Layout";
 import EditCategories from "./views/EditCategories";
 import EditAccounts from "./views/EditAccounts";
 import Account from "./views/Account";

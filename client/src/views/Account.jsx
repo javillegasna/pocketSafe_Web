@@ -19,6 +19,7 @@ const Account = () => {
   const { accountId } = useParams();
   //states
   const [formOpen, setFormOpen] = useState(false);
+  const [graphOpen, setGraphOpen] = useState(false);
   const [transaction, setTransaction] = useState(modelTransaction);
   const [formType, setFormType] = useState({
     type: "Aggregate",
@@ -38,7 +39,7 @@ const Account = () => {
   //handlers
 
   const handlerSubmit = (e) => {
-    console.log(typeof(parseFloat(transaction.value)));
+    console.log(typeof parseFloat(transaction.value));
     e.preventDefault();
     if (formType.type === "Transfer") {
       const destinationAccount = user.accounts.find(
@@ -78,6 +79,18 @@ const Account = () => {
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 className="h1">{account.accountName}</h1>
         <div className="btn-toolbar mb-2 mb-md-0">
+          {account.transactions.length > 0 && (
+            <button
+              onClick={() => setGraphOpen(!graphOpen)}
+              type="button"
+              className="btn btn-sm btn-outline-secondary me-2"
+            >
+              <Icon
+                iconName={"FaChartPie"}
+                message={!graphOpen ? "Open" : "Close"}
+              />
+            </button>
+          )}
           <div className="btn-group mr-2">
             <button
               onClick={() => {
@@ -237,9 +250,8 @@ const Account = () => {
           </button>
         </form>
       )}
-      <div className={"chart-p"}>
-        <PieChart className={"chart-p"} />
-      </div>
+
+      {graphOpen && <PieChart />}
       <TransactionsList />
     </>
   );

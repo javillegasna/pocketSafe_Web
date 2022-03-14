@@ -5,7 +5,7 @@ import UserContext from "../context/UserContext";
 const Header = () => {
   const {user } = useContext(UserContext);
   return (
-    <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to={`/${user._id}/home`}>
         {/* <img className="img-logo" src={logo} alt="" /> */}
         PocketSafe
@@ -23,7 +23,7 @@ const Header = () => {
           </Link>
         </li>
       </ul>
-    </nav>
+    </header>
   );
 };
 

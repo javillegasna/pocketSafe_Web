@@ -5,7 +5,6 @@
   --color-summary-2-highlight: #6c757d;
   --color-summary-3: #fff0f3;
   --color-summary-3-highlight: #dc3545;
-
 }
 body {
   font-size: 0.875rem;
@@ -83,6 +82,10 @@ body {
   }
 }
 //form
+.content-form {
+  width: 50%;
+  margin: 0 auto;
+}
 .form {
   position: relative;
   &-button {
@@ -92,7 +95,7 @@ body {
     border: none;
   }
 }
-.btn-close{
+.btn-close {
   position: absolute;
   right: 4px;
   top: 4px;
@@ -172,22 +175,60 @@ body {
     visibility: hidden;
   }
 }
-/*
- * others
- */
- .chart-p{
-   min-width: 300px;
-   height: 350px;
- }
-.grid-accounts {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-}
+//chart
+//switch
+.switch-container {
+  padding-top: 5px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: flex-end;
+  input[type="checkbox"] {
+    position: absolute;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
 
-.content-form {
-  width: 40%;
-  margin: 0 auto;
+  label {
+    cursor: pointer;
+    color: #19875400;
+    text-indent: -9999px;
+    width: 60px;
+    height: 30px;
+    background: #198754;
+    display: block;
+    border-radius: 25px;
+    position: relative;
+  }
+
+  label:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  input:checked + label {
+    background: #dc3545;
+  }
+
+  input:checked + label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+  }
+
+  label:active:after {
+    width: 30px;
+  }
+}
+.chart-p {
+  min-width: 300px;
+  height: 350px;
 }
 //accordion tags
 summary {
@@ -248,9 +289,29 @@ details {
   }
 }
 
+/*
+ * others
+ */
+.grid-accounts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.nav-home{
+  visibility: hidden;
+}
+
+
 //media queries
 @media (max-width: 767.98px) {
   .sidebar {
     top: 5rem;
+  }
+  .nav-home{
+    visibility:visible;
+  }
+  .content-form {
+    width: 80%;
+    margin: 0 auto;
   }
 }

@@ -2,11 +2,8 @@ import { ResponsivePie } from "@nivo/pie";
 import { useContext, useState } from "react";
 import ConfigContext from "../context/ConfigContext";
 import UserContext from "../context/UserContext";
-import { data } from "../utils/models";
-//import { data} from "../utils/models";
-
 const PieChart = () => {
-  const [graphSelector, setGraphSelector] = useState("aggregate");
+  const [graphSelector, setGraphSelector] = useState(true);
   const { account } = useContext(ConfigContext);
   const { user } = useContext(UserContext);
 
@@ -62,32 +59,38 @@ const PieChart = () => {
 
   const dataHandler = () => {
     const composedData = dataComposer;
-    if (graphSelector === "aggregate") return composedData.aggregateList;
+    if (graphSelector) return composedData.aggregateList;
     return composedData.expenseList;
   };
   return (
-    <ResponsivePie
-      data={dataHandler()}
-      margin={{ top: 20, right: 100, bottom: 20, left: 100 }}
-      innerRadius={0.7}
-      padAngle={0.7}
-      cornerRadius={3}
-      activeOuterRadiusOffset={8}
-      borderWidth={1}
-      borderColor={{
-        from: "color",
-        modifiers: [["darker", 0.2]],
-      }}
-      arcLinkLabelsSkipAngle={10}
-      arcLinkLabelsTextColor="#333333"
-      arcLinkLabelsThickness={2}
-      arcLinkLabelsColor={{ from: "color" }}
-      arcLabelsSkipAngle={10}
-      arcLabelsTextColor={{
-        from: "color",
-        modifiers: [["darker", 2]],
-      }}
-    />
+    <div className={"chart-p card mb-3"}>
+      <div className="switch-container">
+        <input type="checkbox" id="switch" onChange={()=>setGraphSelector(!graphSelector)}/>
+        <label for="switch">Toggle</label>
+      </div>
+      <ResponsivePie
+        data={dataHandler()}
+        margin={{ top: 10, right: 100, bottom: 45, left: 100 }}
+        innerRadius={0.7}
+        padAngle={0.7}
+        cornerRadius={3}
+        activeOuterRadiusOffset={8}
+        borderWidth={1}
+        borderColor={{
+          from: "color",
+          modifiers: [["darker", 0.2]],
+        }}
+        arcLinkLabelsSkipAngle={10}
+        arcLinkLabelsTextColor="#333333"
+        arcLinkLabelsThickness={2}
+        arcLinkLabelsColor={{ from: "color" }}
+        arcLabelsSkipAngle={10}
+        arcLabelsTextColor={{
+          from: "color",
+          modifiers: [["darker", 2]],
+        }}
+      />
+    </div>
   );
 };
 export default PieChart;
