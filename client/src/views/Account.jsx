@@ -38,6 +38,7 @@ const Account = () => {
   //handlers
 
   const handlerSubmit = (e) => {
+    console.log(typeof(parseFloat(transaction.value)));
     e.preventDefault();
     if (formType.type === "Transfer") {
       const destinationAccount = user.accounts.find(
