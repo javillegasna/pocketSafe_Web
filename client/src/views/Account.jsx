@@ -7,9 +7,9 @@ import { BiTransfer } from "react-icons/bi";
 import ConfigContext from "../context/ConfigContext";
 import UserContext from "../context/UserContext";
 import Icon from "../components/Icon";
-import { modelTransaction} from "../utils/models";
+import { modelTransaction } from "../utils/models";
 import SelectIcons from "../components/SelectIcons";
-//import PieChart from "../components/PieChart";
+import PieChart from "../components/PieChart";
 import TransactionsList from "../components/TransactionsList";
 const Account = () => {
   //context
@@ -36,7 +36,7 @@ const Account = () => {
       setTransaction({ ...transaction, previousAmount: account.currentAmount });
   }, [formOpen]);
   //handlers
-  
+
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (formType.type === "Transfer") {
@@ -47,7 +47,7 @@ const Account = () => {
         ...destinationAccount,
         currentAmount: (destinationAccount.currentAmount += parseFloat(
           transaction.value
-        ).toFixed(2)),
+        )),
         transactions: [...destinationAccount.transactions, transaction],
       });
     }
@@ -55,8 +55,8 @@ const Account = () => {
       ...account,
       currentAmount:
         formType.type === "Aggregate"
-          ? (account.currentAmount += parseFloat(transaction.value).toFixed(2))
-          : (account.currentAmount -= parseFloat(transaction.value).toFixed(2)),
+          ? (account.currentAmount += parseFloat(transaction.value))
+          : (account.currentAmount -= parseFloat(transaction.value)),
       transactions: [...account.transactions, transaction],
     })
       .then((account) => {
@@ -236,10 +236,10 @@ const Account = () => {
           </button>
         </form>
       )}
-      {/* <div className={"chart-p"}>
+      <div className={"chart-p"}>
         <PieChart className={"chart-p"} />
-      </div> */}
-      <TransactionsList/>
+      </div>
+      <TransactionsList />
     </>
   );
 };

@@ -57,12 +57,9 @@ const PieChart = () => {
     return composedData.expenseList;
   };
 
-  console.log("dataHandler",dataHandler());
-  console.log("user",user);
-  console.log("account",account)
 
   return <ResponsivePie
-    data={data}
+    data={dataHandler}
     margin={{ top: 20, right: 100, bottom: 20, left: 100 }}
     innerRadius={0.7}
     padAngle={0.7}
