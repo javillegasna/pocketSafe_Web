@@ -11,7 +11,7 @@ const Home = () => {
   const renderAccounts = (accounts) =>
     accounts.map((account) => (
       <button
-        onClick={() => navigate(`/${user.id}/${account._id}`)}
+        onClick={() => navigate(`/${user._id}/${account._id}`)}
         key={account._id}
         to={`/${user._id}/${account._id}`}
         className="card card-button text-center"
