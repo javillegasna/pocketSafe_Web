@@ -175,6 +175,10 @@ body {
 /*
  * others
  */
+ .chart-p{
+   min-width: 300px;
+   height: 350px;
+ }
 .grid-accounts {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
