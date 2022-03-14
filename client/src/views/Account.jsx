@@ -35,6 +35,7 @@ const Account = () => {
   }, [formOpen]);
   //handlers
   const handlerSubmit = (e) => {
+    console.log(typeof(parseFloat(transaction.value)));
     e.preventDefault();
     if (formType.type === "Transfer") {
       const destinationAccount = user.accounts.find(
@@ -44,7 +45,7 @@ const Account = () => {
         ...destinationAccount,
         currentAmount: (destinationAccount.currentAmount += parseFloat(
           transaction.value
-        ).toFixed(2)),
+        )),
         transactions: [...destinationAccount.transactions, transaction],
       });
     }
@@ -52,8 +53,8 @@ const Account = () => {
       ...account,
       currentAmount:
         formType.type === "Aggregate"
-          ? (account.currentAmount += parseFloat(transaction.value).toFixed(2))
-          : (account.currentAmount -= parseFloat(transaction.value).toFixed(2)),
+          ? (account.currentAmount += parseFloat(transaction.value))
+          : (account.currentAmount -= parseFloat(transaction.value)),
       transactions: [...account.transactions, transaction],
     })
       .then((account) => {
@@ -248,7 +249,7 @@ const Account = () => {
         const { accounts, categories } = user;
         const foundOrigin = accounts.find((el) => el._id === origin);
         const foundDestination = accounts.find((el) => el._id === destination);
-        const foundCategory = categories.find((el) => (el._id = category));
+        const foundCategory = categories.find((el) => el._id === category);
         return (
           <details key={_id} className={type}>
             <summary>
