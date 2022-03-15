@@ -1,4 +1,5 @@
-import { useContext } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../components/Icon";
 import UserContext from "../context/UserContext";
@@ -8,7 +9,9 @@ const Home = () => {
   //Context
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
+  useEffect(() => {
+    if(user.roles[0].name==="admin")navigate(`/${user._id}/users`)
+  }, []);
   const renderAccounts = (accounts) =>
     accounts.map((account) => (
       <button

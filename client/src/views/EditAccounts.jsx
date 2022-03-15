@@ -23,21 +23,22 @@ const EditAccounts = () => {
     const action = editing
       ? putAccount(formAccount._id, formAccount)
       : postAccount(formAccount);
-    action
-      .then((account) => {
-        const { accounts } = user;
-        return putUser(user._id, {
-          ...user,
-          accounts: editing ? accounts : [...accounts, account],
-        });
-      })
-      .then((user) => {
-        setUser(user);
-        localStorage.setItem("CurrentUser", JSON.stringify(user));
-        setFrmOpen(false);
-        setEditing(false);
-      })
-      .catch((err) => console.error(err));
+    if (formAccount.accountName !== "")
+      action
+        .then((account) => {
+          const { accounts } = user;
+          return putUser(user._id, {
+            ...user,
+            accounts: editing ? accounts : [...accounts, account],
+          });
+        })
+        .then((user) => {
+          setUser(user);
+          localStorage.setItem("CurrentUser", JSON.stringify(user));
+          setFrmOpen(false);
+          setEditing(false);
+        })
+        .catch((err) => console.error(err));
   };
   return (
     <>
@@ -81,6 +82,7 @@ const EditAccounts = () => {
               id="floatingInput"
               className="form-control"
               placeholder="Account Name"
+              minlength="3"
               type="text"
               value={formAccount.accountName}
               onChange={(e) =>
@@ -90,7 +92,7 @@ const EditAccounts = () => {
             <label htmlFor="floatingInput">Account Name:</label>
           </fieldset>
           <button className="btn btn-dark form-button" type="submit">
-            Sign in
+            {editing ? "Edit" : "Create"}
           </button>
         </form>
       )}
@@ -99,8 +101,8 @@ const EditAccounts = () => {
           id: el._id,
           name: el.accountName,
           icon: el.accountIcon,
-          amount:el.currentAmount,
-          transactions:el.transactions
+          amount: el.currentAmount,
+          transactions: el.transactions,
         }))}
         actions={{
           edit: (item) => {
@@ -110,7 +112,7 @@ const EditAccounts = () => {
               accountName: item.name,
               accountIcon: item.icon,
               currentAmount: item.amount,
-              transactions:item.transactions
+              transactions: item.transactions,
             });
             setFrmOpen(true);
             setEditing(true);

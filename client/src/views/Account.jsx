@@ -50,7 +50,8 @@ const Account = () => {
   const handlerSubmit = (e) => {
     console.log(typeof parseFloat(transaction.value));
     e.preventDefault();
-    if (formType.type === "Transfer") {
+    const emptyValidation = transaction.value !== "";
+    if (formType.type === "Transfer" && emptyValidation) {
       const destinationAccount = user.accounts.find(
         (element) => element._id === transaction.destination
       );
@@ -62,25 +63,26 @@ const Account = () => {
         transactions: [...destinationAccount.transactions, transaction],
       });
     }
-    putAccount(accountId, {
-      ...account,
-      currentAmount:
-        formType.type === "Aggregate"
-          ? (account.currentAmount += parseFloat(transaction.value))
-          : (account.currentAmount -= parseFloat(transaction.value)),
-      transactions: [...account.transactions, transaction],
-    })
-      .then((account) => {
-        setAccount(account);
-        return putUser(user._id, user);
+    if (emptyValidation)
+      putAccount(accountId, {
+        ...account,
+        currentAmount:
+          formType.type === "Aggregate"
+            ? (account.currentAmount += parseFloat(transaction.value))
+            : (account.currentAmount -= parseFloat(transaction.value)),
+        transactions: [...account.transactions, transaction],
       })
-      .then((user) => {
-        setUser(user);
-        setTransaction(modelTransaction);
-        localStorage.setItem("CurrentUser", JSON.stringify(user));
-        setFormOpen(false);
-      })
-      .catch((err) => console.error(err));
+        .then((account) => {
+          setAccount(account);
+          return putUser(user._id, user);
+        })
+        .then((user) => {
+          setUser(user);
+          setTransaction(modelTransaction);
+          localStorage.setItem("CurrentUser", JSON.stringify(user));
+          setFormOpen(false);
+        })
+        .catch((err) => console.error(err));
   };
   return (
     <>
@@ -180,7 +182,8 @@ const Account = () => {
               className="form-control"
               placeholder="Amount"
               type="number"
-              min={0}
+              minlength="1"
+              min={0.01}
               step={0.01}
               value={transaction.value}
               onChange={(e) =>

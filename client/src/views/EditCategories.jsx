@@ -11,7 +11,8 @@ const EditCategories = () => {
   const { user, setUser, putUser } = useContext(UserContext);
   //states
 
-  const { postCategory, deleteCategory, putCategory } = useContext(ConfigContext);
+  const { postCategory, deleteCategory, putCategory } =
+    useContext(ConfigContext);
   const [frmOpen, setFrmOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -22,21 +23,22 @@ const EditCategories = () => {
     const action = editing
       ? putCategory(formCategory._id, formCategory)
       : postCategory(formCategory);
-    action
-      .then((categoryList) => {
-        const { categories } = user;
-        return putUser(user._id, {
-          ...user,
-          categories: editing ? categories : [...categories, categoryList],
-        });
-      })
-      .then((user) => {
-        setUser(user);
-        localStorage.setItem("CurrentUser", JSON.stringify(user));
-        setFrmOpen(false);
-        setEditing(false);
-      })
-      .catch((err) => console.error(err));
+    if (formCategory.categoryName !== "")
+      action
+        .then((categoryList) => {
+          const { categories } = user;
+          return putUser(user._id, {
+            ...user,
+            categories: editing ? categories : [...categories, categoryList],
+          });
+        })
+        .then((user) => {
+          setUser(user);
+          localStorage.setItem("CurrentUser", JSON.stringify(user));
+          setFrmOpen(false);
+          setEditing(false);
+        })
+        .catch((err) => console.error(err));
   };
   return (
     <>
@@ -79,16 +81,20 @@ const EditCategories = () => {
               id="floatingInput"
               className="form-control"
               placeholder="Account Name"
+              minlength="3"
               type="text"
               value={formCategory.categoryName}
               onChange={(e) =>
-                setFormCategory({ ...formCategory, categoryName: e.target.value })
+                setFormCategory({
+                  ...formCategory,
+                  categoryName: e.target.value,
+                })
               }
             />
             <label htmlFor="floatingInput">Category Name:</label>
           </fieldset>
           <button className="btn btn-dark form-button" type="submit">
-            Sign in
+            {editing ? "Edit" : "Create"}
           </button>
         </form>
       )}
@@ -119,17 +125,19 @@ const EditCategories = () => {
           },
         }}
       />
-      {(
+      {
         <ModalGrid
           listIcons={Object.keys(FontAwesome)}
           action={(icon) => {
-            setFormCategory({...formCategory, iconName:icon});
+            setFormCategory({ ...formCategory, iconName: icon });
             setModalOpen(false);
           }}
           visible={modalOpen}
-          close={()=>{setModalOpen(false)}}
+          close={() => {
+            setModalOpen(false);
+          }}
         />
-      )}
+      }
     </>
   );
 };

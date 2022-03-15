@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { GiWallet } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 //import logo from "../assets/personal-Logo.png"
@@ -7,8 +8,7 @@ const Header = () => {
   return (
     <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to={`/${user._id}/home`}>
-        {/* <img className="img-logo" src={logo} alt="" /> */}
-        PocketSafe
+        {<GiWallet className="ms-3 me-1"/>} PocketSafe
       </Link>
       {/* <input
         className="form-control form-control-dark w-100"

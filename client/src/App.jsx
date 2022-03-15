@@ -9,6 +9,8 @@ import EditCategories from "./views/EditCategories";
 import EditAccounts from "./views/EditAccounts";
 import Account from "./views/Account";
 import Register from "./views/Register";
+import EditUsers from "./views/EditUsers";
+
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +22,7 @@ function App() {
             <Route path="home" element={<Layout render={<Home />} />} />
             <Route path="accounts" element={<Layout render={<EditAccounts/>} />} />
             <Route path="categories" element={<Layout render={<EditCategories />} />} />
+            <Route path="users" element={<Layout render={<EditUsers />} />} />
             <Route path=":accountId" element={<Layout render={<Account />} />} />
           </Route>
         </Routes>

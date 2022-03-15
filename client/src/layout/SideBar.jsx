@@ -11,27 +11,26 @@ const SideBar = () => {
   const renderAccounts = (accounts) =>
     accounts.map((account) => (
       <li key={account._id} className="nav-item">
-        <NavLink
-          className="nav-link"
-          to={`/${user._id}/${account._id}`}
-        >
+        <NavLink className="nav-link" to={`/${user._id}/${account._id}`}>
           <Icon iconName={account.accountIcon} message={account.accountName} />
         </NavLink>
       </li>
     ));
 
   return (
-    <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+    <nav className="col-md-2 d-none d-md-block bg-dark sidebar">
       <div className="sidebar-sticky">
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <NavLink className="nav-link" to={`/${user._id}/home`}>
-              <FiHome className="feather feather-home" />
-              Dashboard
-            </NavLink>
-          </li>
-          {user.accounts !== [] && renderAccounts(user.accounts)}
-        </ul>
+        {user.accounts.length > 0 && (
+          <ul className="nav flex-column">
+            <li className="nav-item">
+              <NavLink className="nav-link" to={`/${user._id}/home`}>
+                <FiHome className="feather feather-home me-1" />
+                Dashboard
+              </NavLink>
+            </li>
+            {renderAccounts(user.accounts)}
+          </ul>
+        )}
         <hr />
         <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-1 mb-1 text-muted">
           <span>Configuration</span>
