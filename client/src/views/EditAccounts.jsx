@@ -82,7 +82,7 @@ const EditAccounts = () => {
               id="floatingInput"
               className="form-control"
               placeholder="Account Name"
-              minlength="3"
+              minLength="3"
               type="text"
               value={formAccount.accountName}
               onChange={(e) =>

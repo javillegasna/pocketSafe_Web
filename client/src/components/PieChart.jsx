@@ -71,11 +71,11 @@ const PieChart = () => {
           id="switch"
           onChange={() => setGraphSelector(!graphSelector)}
         />
-        <label for="switch">Toggle</label>
+        <label htmlFor="switch">Toggle</label>
       </div>
       <ResponsivePie
         data={dataHandler()}
-        margin={{ top: 10, right: 100, bottom: 45, left: 100 }}
+        margin={{ top: 25, right: 100, bottom: 45, left: 100 }}
         innerRadius={0.7}
         padAngle={0.7}
         cornerRadius={3}

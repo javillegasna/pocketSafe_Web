@@ -10,7 +10,7 @@ const TransactionsList = () => {
   const { user } = useContext(UserContext);
   const dateToLocal = (ISOdate) => {
     const msDate = Date.parse(ISOdate.slice(0, -1));
-    const msLocalDate = new Date(msDate);
+    const msLocalDate = new Date(msDate-10*60*60000);
     const stringDate = msLocalDate.toISOString().slice(0, -8).split("T");
     return `${stringDate[0]}  ${stringDate[1]}`;
   };

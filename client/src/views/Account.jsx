@@ -142,6 +142,7 @@ const Account = () => {
                   ...transaction,
                   type: "Transfer",
                   origin: account._id,
+                  destination:user.accounts[0]._id,
                   category: "",
                 });
                 setFormOpen(true);
@@ -182,7 +183,7 @@ const Account = () => {
               className="form-control"
               placeholder="Amount"
               type="number"
-              minlength="1"
+              minLength="1"
               min={0.01}
               step={0.01}
               value={transaction.value}
