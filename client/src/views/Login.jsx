@@ -8,7 +8,7 @@ import config from "../configuration/default.config";
 import { useContext, useState } from "react";
 //Context
 import UserContext from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   //Navigate
@@ -74,9 +74,10 @@ const Login = () => {
             <input type="checkbox" value="remember-me" /> Remember me
           </label>
         </fieldset> */}
-        <button className="w-100 fw-bold btn btn-lg btn-dark" type="submit">
+        <button className="w-100 mt-2 fw-bold btn btn-lg btn-dark" type="submit">
           Sign in
         </button>
+        <Link className="pt-3" to ={`/signup`}>Register?</Link>
         <p className="mt-2 mb-1 text-muted">&copy; {"2021"}</p>
       </form>
     </main>

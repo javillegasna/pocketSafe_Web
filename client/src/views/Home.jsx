@@ -26,11 +26,11 @@ const Home = () => {
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 className="h1">Dashboard</h1>
-        <nav class="btn-group me-2 nav-home">
+        <nav className="btn-group me-2 nav-home">
           <button
             onClick={() => navigate(`/${user.id}/categories`)}
             type="button"
-            class="btn btn-sm btn-outline-secondary"
+            className="btn btn-sm btn-outline-secondary"
           >
             <BiCategory className="feather feather-home" />
             {"  "}Categories
@@ -38,7 +38,7 @@ const Home = () => {
           <button
             onClick={() => navigate(`/${user.id}/accounts`)}
             type="button"
-            class="btn btn-sm btn-outline-secondary"
+            className="btn btn-sm btn-outline-secondary"
           >
             <FiBookOpen className="feather feather-home" />
             {"  "}Accounts

@@ -6,15 +6,20 @@ import { createOneUser } from "../libs/initialSetup";
 
 export const singUp = async (req, res) => {
   try {
-    const { userName, email, password, roles } = req.body;
+    const {email, password, roles } = req.body;
 
-    const savedUser = await createOneUser({ userName, email, password, roles });
-
-    const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
+    const savedUser = await createOneUser({ email, password, roles });
+    const userFound = await User.findOne({ email: savedUser.email})
+    .populate("roles")
+    .populate("categories")
+    .populate("accounts")
+    .exec();
+  if (!userFound) return res.status(400).json({ message: "Please check your email" });
+    const token = jwt.sign({ id: userFound._id }, config.SECRET, {
       expiresIn: 86400,
     });
 
-    res.json({ token, user: savedUser });
+    res.json({ token, user: userFound });
   } catch (error) {
     res.status(400).json(error);
   }

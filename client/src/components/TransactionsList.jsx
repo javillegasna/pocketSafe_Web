@@ -6,14 +6,22 @@ import ConfigContext from "../context/ConfigContext";
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
 const TransactionsList = () => {
-  const { account} = useContext(ConfigContext);
+  const { account } = useContext(ConfigContext);
   const { user } = useContext(UserContext);
-  return ( <div>
-    {account.transactions.map((transaction) => {
+  const dateToLocal = (ISOdate) => {
+    const msDate = Date.parse(ISOdate.slice(0, -1));
+    const msLocalDate = new Date(msDate);
+    const stringDate = msLocalDate.toISOString().slice(0, -8).split("T");
+    return `${stringDate[0]}  ${stringDate[1]}`;
+  };
+  return (
+    <div>
+      {account.transactions.map((transaction) => {
         const {
           _id,
           type,
           value,
+          date,
           previousAmount,
           category,
           description,
@@ -26,17 +34,24 @@ const TransactionsList = () => {
         const foundCategory = categories.find((el) => el._id === category);
         return (
           <details key={_id} className={type}>
-            <summary>
-              <div>
-                {type === "Transfer" ? (
-                  <BiTransfer />
-                ) : type === "Aggregate" ? (
-                  <BsCashCoin />
-                ) : (
-                  <RiHandCoinFill />
-                )}
+            <summary className="d-flex justify-content-between">
+              <div className="p-0 m-0">
+                <div className="p-1 me-2">
+                  {type === "Transfer" ? (
+                    <BiTransfer />
+                  ) : type === "Aggregate" ? (
+                    <BsCashCoin />
+                  ) : (
+                    <RiHandCoinFill />
+                  )}
+                </div>
+                <div className="p-0 m-0">{`${type}: $${value} `}</div>
               </div>
-              <div>{`${type}: $${value}`}</div>
+              <Icon
+                customStyle={"ms-3 p-0 m-0"}
+                iconName={"FaCalendarAlt"}
+                message={dateToLocal(date)}
+              />
             </summary>
             <div>{`Previous: $${previousAmount} `}</div>
             {category && (
@@ -66,6 +81,7 @@ const TransactionsList = () => {
           </details>
         );
       })}
-  </div> );
-}
+    </div>
+  );
+};
 export default TransactionsList;

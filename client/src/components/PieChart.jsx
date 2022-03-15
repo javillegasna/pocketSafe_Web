@@ -2,6 +2,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { useContext, useState } from "react";
 import ConfigContext from "../context/ConfigContext";
 import UserContext from "../context/UserContext";
+import Icon from "./Icon";
 const PieChart = () => {
   const [graphSelector, setGraphSelector] = useState(true);
   const { account } = useContext(ConfigContext);
@@ -11,7 +12,7 @@ const PieChart = () => {
     const categoryFound = list.find((item) => item.id === categoryName);
     if (!categoryFound) return [...list, { id: categoryName, value: value }];
     const listWithoutCategory = list.filter(
-      (item) => item.id === categoryFound.id
+      (item) => item.id !== categoryFound.id
     );
     return [
       ...listWithoutCategory,
@@ -65,7 +66,11 @@ const PieChart = () => {
   return (
     <div className={"chart-p card mb-3"}>
       <div className="switch-container">
-        <input type="checkbox" id="switch" onChange={()=>setGraphSelector(!graphSelector)}/>
+        <input
+          type="checkbox"
+          id="switch"
+          onChange={() => setGraphSelector(!graphSelector)}
+        />
         <label for="switch">Toggle</label>
       </div>
       <ResponsivePie
@@ -90,6 +95,13 @@ const PieChart = () => {
           modifiers: [["darker", 2]],
         }}
       />
+      {dataHandler().length === 0 && (
+        <Icon
+          customStyle={"chart-NoData"}
+          iconName={"FaSadTear"}
+          message={"No data"}
+        />
+      )}
     </div>
   );
 };

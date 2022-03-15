@@ -2,12 +2,6 @@ import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 const userSchema = new Schema(
   {
-    userName: {
-      type: String,
-      required: [true, "Name is required"],
-      unique: [true, "Name must be unique"],
-      minLength: [3, "Please send more than 3 characters"],
-    },
     email: {
       type: String,
       required: [true, "Email is required"],

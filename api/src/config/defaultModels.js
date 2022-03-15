@@ -60,19 +60,16 @@ const defaultAccounts = [
 const defaultRoles = [{ name: "user" }, { name: "client" }, { name: "admin" }];
 const defaultUsers = [
   {
-    userName: "Admin",
     email: "admin@admin.com",
     password: "admin",
     roles: ["admin"],
   },
   {
-    userName: "Client",
     email: "client@frontEnd.com",
     password: "client",
     roles: ["client"],
   },
   {
-    userName: "Demo",
     email: "demo@test.com",
     password: "password",
   }

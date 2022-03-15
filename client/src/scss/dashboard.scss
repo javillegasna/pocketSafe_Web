@@ -176,6 +176,18 @@ body {
   }
 }
 //chart
+.chart-p {
+  position: relative;
+  min-width: 300px;
+  height: 350px;
+}
+.chart-NoData{
+  position: absolute;
+  color: gray;
+  font-size: 50px;
+  top: calc(50% - 25px);
+  left: calc(50% - 120px);
+}
 //switch
 .switch-container {
   padding-top: 5px;
@@ -226,10 +238,7 @@ body {
     width: 30px;
   }
 }
-.chart-p {
-  min-width: 300px;
-  height: 350px;
-}
+
 //accordion tags
 summary {
   font-style: normal;

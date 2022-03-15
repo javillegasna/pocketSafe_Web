@@ -30,11 +30,20 @@ const Account = () => {
     const foundAccount = user.accounts.find(
       (element) => element._id === accountId
     );
-    if (foundAccount) setAccount(foundAccount);
+    if (foundAccount) {
+      setAccount(foundAccount);
+      setGraphOpen(false);
+    }
   }, [accountId]);
   useEffect(() => {
-    if (account)
-      setTransaction({ ...transaction, previousAmount: account.currentAmount });
+    if (account) {
+      const today = new Date(Date.now() - 60 * 60000 * 5);
+      setTransaction({
+        ...transaction,
+        previousAmount: account.currentAmount,
+        date: today.toISOString().slice(0, -8),
+      });
+    }
   }, [formOpen]);
   //handlers
 
