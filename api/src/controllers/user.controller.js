@@ -9,8 +9,8 @@ const handlerError = (res) => (err) => {
 
 const create = async (req, res) => {
   try {
-    const { userName, email, password, roles } = req.body;
-    const savedUser = await createOneUser({ userName, email, password, roles });
+    const { email, password, roles } = req.body;
+    const savedUser = await createOneUser({ email, password, roles });
     res.json(savedUser);
   } catch (error) {
     res.status(400).json(error);
